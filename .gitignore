@@ -39,3 +39,14 @@
 
 # debug information files
 *.dwo
+build-ninja/
+build/
+docker/
+.github/
+infra/
+scripts/
+db.sql
+.env
+vix.log
+configs/
+docs/
