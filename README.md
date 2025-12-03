@@ -1,10 +1,39 @@
-# rix
+<p align="center" style="margin:0;">
+  <img 
+    src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1764778802/logo_rix_gyfnhr.png" 
+    alt="Rix Banner" 
+    width="100%" 
+    style="
+      display:block;
+      height:auto;
+      max-width:900px;
+      margin:auto;
+      object-fit:cover;
+      border-radius:8px;
+    ">
+</p>
 
-**Minimal C++ Standard Library for Modern Development**
+<h1 align="center">Rix - Minimal Modern C++ Standard Library</h1>
 
-`rix` is a lightweight umbrella library providing the essential utilities from the C++ standard library and commonly used modules. It is designed for **modern C++20 projects**, header-only, and easy to integrate either standalone or as part of larger projects like Vix.cpp.
+<p align="center">
+  <img src="https://img.shields.io/badge/C++20-Standard-blue">
+  <img src="https://img.shields.io/badge/License-MIT-green">
+</p>
 
-Each module is maintained in a separate repository, but `rix` provides a **single umbrella interface** for convenience.
+# Rix is a lightweight and modern collection of essential utilities
+
+designed for C++20 and beyond.\
+It serves as a modular, header-only, minimal standard library, ideal
+for:
+
+- Modern C++ development
+- Embedded / lightweight projects
+- High-performance frameworks like Vix.cpp
+- Developers who want a clean, consistent, simplified alternative to
+  the STL
+
+Each module is provided as a standalone repository, while `rix` (the
+umbrella project) offers a unified interface for convenience.
 
 ---
 
