@@ -50,3 +50,5 @@ db.sql
 vix.log
 configs/
 docs/
+cmd.md
+.vscode/
