@@ -1,0 +1,62 @@
+@PACKAGE_INIT@
+
+# ====================================================================
+# Rix — Minimal Modern C++ Utility Library
+# --------------------------------------------------------------------
+# CMake package configuration file
+#
+# This file is installed as:
+#   <prefix>/lib/cmake/rix/rixConfig.cmake
+#
+# It is loaded when a consumer calls:
+#
+#   find_package(rix REQUIRED)
+#
+# Responsibilities:
+#   - Provide a stable entry point for all exported Rix targets.
+#   - Optionally locate any dependencies in the future via
+#     find_dependency(...).
+#   - Include the generated RixTargets.cmake export file, which defines:
+#       rix::all         (if built)
+#       rix::io          (if installed)
+#       rix::<module>    (for any other installed modules)
+#
+# Typical usage from a consumer project:
+#
+#   find_package(rix REQUIRED)
+#
+#   add_executable(my_app main.cpp)
+#   target_link_libraries(my_app PRIVATE rix::io)   # or rix::all
+#
+# ====================================================================
+
+include(CMakeFindDependencyMacro)
+
+# --------------------------------------------------------------------
+# Dependencies
+# --------------------------------------------------------------------
+# If Rix or any of its modules gains external dependencies (e.g. fmt,
+# spdlog, etc.), they should be located here using:
+#
+#   find_dependency(<PackageName> [VERSION] [...])
+#
+# For now, Rix has no hard external CMake package dependencies, so this
+# section intentionally remains empty.
+# --------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------
+# Load exported targets
+# --------------------------------------------------------------------
+# All module targets are exported into RixTargets.cmake by the umbrella
+# CMakeLists.txt via:
+#
+#   install(EXPORT RixTargets
+#           NAMESPACE rix::
+#           FILE RixTargets.cmake
+#           DESTINATION <prefix>/lib/cmake/rix)
+#
+# We simply include that export file here to make the targets visible
+# to any consumer that calls find_package(rix).
+# --------------------------------------------------------------------
+include("${CMAKE_CURRENT_LIST_DIR}/RixTargets.cmake")
