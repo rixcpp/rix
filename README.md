@@ -1,6 +1,6 @@
 <p align="center" style="margin:0;">
   <img 
-    src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1764778802/logo_rix_gyfnhr.png" 
+    src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1766830420/banniere_qfghep.png" 
     alt="Rix Banner" 
     width="100%" 
     style="
