@@ -153,4 +153,7 @@ The umbrella project provides a unified integration layer.
 MIT License
 
 Copyright (c) 2026 Vix.cpp
+
+---
+
 Authors: Gaspard Kirira
