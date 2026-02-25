@@ -1,60 +1,60 @@
-[submodule "modules/rix-assert"]
-	path = modules/rix-assert
-	url = git@github.com:rixcpp/rix-assert.git
+[submodule "modules/assert"]
+	path = modules/assert
+	url = git@github.com:rixcpp/assert.git
 	branch = dev
-[submodule "modules/rix-async"]
-	path = modules/rix-async
-	url = git@github.com:rixcpp/rix-async.git
+[submodule "modules/async"]
+	path = modules/async
+	url = git@github.com:rixcpp/async.git
 	branch = dev
-[submodule "modules/rix-chrono"]
-	path = modules/rix-chrono
-	url = git@github.com:rixcpp/rix-chrono.git
+[submodule "modules/chrono"]
+	path = modules/chrono
+	url = git@github.com:rixcpp/chrono.git
 	branch = dev
-[submodule "modules/rix-containers"]
-	path = modules/rix-containers
-	url = git@github.com:rixcpp/rix-containers.git
+[submodule "modules/containers"]
+	path = modules/containers
+	url = git@github.com:rixcpp/containers.git
 	branch = dev
-[submodule "modules/rix-fs"]
-	path = modules/rix-fs
-	url = git@github.com:rixcpp/rix-fs.git
+[submodule "modules/fs"]
+	path = modules/fs
+	url = git@github.com:rixcpp/fs.git
 	branch = dev
-[submodule "modules/rix-io"]
-	path = modules/rix-io
-	url = git@github.com:rixcpp/rix-io.git
+[submodule "modules/io"]
+	path = modules/io
+	url = git@github.com:rixcpp/io.git
 	branch = dev
-[submodule "modules/rix-iterator"]
-	path = modules/rix-iterator
-	url = git@github.com:rixcpp/rix-iterator.git
+[submodule "modules/iterator"]
+	path = modules/iterator
+	url = git@github.com:rixcpp/iterator.git
 	branch = dev
-[submodule "modules/rix-json"]
-	path = modules/rix-json
-	url = git@github.com:rixcpp/rix-json.git
+[submodule "modules/json"]
+	path = modules/json
+	url = git@github.com:rixcpp/json.git
 	branch = dev
-[submodule "modules/rix-log"]
-	path = modules/rix-log
-	url = git@github.com:rixcpp/rix-log.git
+[submodule "modules/log"]
+	path = modules/log
+	url = git@github.com:rixcpp/log.git
 	branch = dev
-[submodule "modules/rix-memory"]
-	path = modules/rix-memory
-	url = git@github.com:rixcpp/rix-memory.git
+[submodule "modules/memory"]
+	path = modules/memory
+	url = git@github.com:rixcpp/memory.git
 	branch = dev
-[submodule "modules/rix-net"]
-	path = modules/rix-net
-	url = git@github.com:rixcpp/rix-net.git
+[submodule "modules/net"]
+	path = modules/net
+	url = git@github.com:rixcpp/net.git
 	branch = dev
-[submodule "modules/rix-process"]
-	path = modules/rix-process
-	url = git@github.com:rixcpp/rix-process.git
+[submodule "modules/process"]
+	path = modules/process
+	url = git@github.com:rixcpp/process.git
 	branch = dev
-[submodule "modules/rix-string"]
-	path = modules/rix-string
-	url = git@github.com:rixcpp/rix-string.git
+[submodule "modules/string"]
+	path = modules/string
+	url = git@github.com:rixcpp/string.git
 	branch = dev
-[submodule "modules/rix-thread"]
-	path = modules/rix-thread
-	url = git@github.com:rixcpp/rix-thread.git
+[submodule "modules/thread"]
+	path = modules/thread
+	url = git@github.com:rixcpp/thread.git
 	branch = dev
-[submodule "modules/rix-util"]
-	path = modules/rix-util
-	url = git@github.com:rixcpp/rix-util.git
+[submodule "modules/util"]
+	path = modules/util
+	url = git@github.com:rixcpp/util.git
 	branch = dev
