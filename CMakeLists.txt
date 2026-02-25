@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
 # ====================================================================
-# Rix — Minimal Modern C++ Utility Library
+# Rix - Minimal Modern C++ Utility Library
 # --------------------------------------------------------------------
-# Top-level umbrella CMake configuration for all rix-* modules.
+# Top-level umbrella CMake configuration for all modules.
 #
 # Rix is a small, modular collection of modern C++20 utilities designed
 # to feel like a lightweight "essential standard library":
@@ -41,6 +41,7 @@ cmake_minimum_required(VERSION 3.20)
 #   target_link_libraries(my_app PRIVATE rix::all)    # all enabled modules
 #
 # ====================================================================
+
 project(rix VERSION 0.1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
@@ -63,33 +64,33 @@ set(CMAKE_CXX_FLAGS_DEBUG   "${RIX_GLOBAL_CXX_FLAGS} -g")
 # ====================================================================
 # Umbrella module options
 # ====================================================================
-# These options control which rix-* modules are built as part of this
-# umbrella project. Only rix-io is enabled by default for now.
+# These options control which modules are built as part of this
+# umbrella project. Only io is enabled by default for now.
 #
 # Each module is expected to:
-#   - live under modules/rix-<name>
+#   - live under modules/<name>
 #   - define a target named rix::<name>
 #   - install itself into the shared export set "RixTargets".
 # ====================================================================
 
-option(RIX_ENABLE_IO          "Build rix-io module"          ON)
-option(RIX_ENABLE_STRING      "Build rix-string module"      OFF)
-option(RIX_ENABLE_MEMORY      "Build rix-memory module"      OFF)
-option(RIX_ENABLE_CONTAINERS  "Build rix-containers module"  OFF)
-option(RIX_ENABLE_JSON        "Build rix-json module"        OFF)
-option(RIX_ENABLE_NET         "Build rix-net module"         OFF)
-option(RIX_ENABLE_FS          "Build rix-fs module"          OFF)
-option(RIX_ENABLE_THREAD      "Build rix-thread module"      OFF)
-option(RIX_ENABLE_LOG         "Build rix-log module"         OFF)
-option(RIX_ENABLE_ASSERT      "Build rix-assert module"      OFF)
-option(RIX_ENABLE_UTIL        "Build rix-util module"        OFF)
-option(RIX_ENABLE_PROCESS     "Build rix-process module"     OFF)
-option(RIX_ENABLE_ITERATOR    "Build rix-iterator module"    OFF)
-option(RIX_ENABLE_CHRONO      "Build rix-chrono module"      OFF)
-option(RIX_ENABLE_ASYNC       "Build rix-async module"       OFF)
+option(RIX_ENABLE_IO          "Build io module"          ON)
+option(RIX_ENABLE_STRING      "Build string module"      OFF)
+option(RIX_ENABLE_MEMORY      "Build memory module"      OFF)
+option(RIX_ENABLE_CONTAINERS  "Build containers module"  OFF)
+option(RIX_ENABLE_JSON        "Build json module"        OFF)
+option(RIX_ENABLE_NET         "Build net module"         OFF)
+option(RIX_ENABLE_FS          "Build fs module"          OFF)
+option(RIX_ENABLE_THREAD      "Build thread module"      OFF)
+option(RIX_ENABLE_LOG         "Build log module"         OFF)
+option(RIX_ENABLE_ASSERT      "Build assert module"      OFF)
+option(RIX_ENABLE_UTIL        "Build util module"        OFF)
+option(RIX_ENABLE_PROCESS     "Build process module"     OFF)
+option(RIX_ENABLE_ITERATOR    "Build iterator module"    OFF)
+option(RIX_ENABLE_CHRONO      "Build chrono module"      OFF)
+option(RIX_ENABLE_ASYNC       "Build async module"       OFF)
 
 # Global knobs to control tests and examples for all modules that support them.
-option(RIX_ENABLE_TESTS       "Enable tests in all rix modules (where supported)"    ON)
+option(RIX_ENABLE_TESTS       "Enable tests in all rix modules (where supported)"     ON)
 option(RIX_ENABLE_EXAMPLES    "Enable examples in all rix modules (where supported)" ON)
 
 # ====================================================================
@@ -97,19 +98,19 @@ option(RIX_ENABLE_EXAMPLES    "Enable examples in all rix modules (where support
 # ====================================================================
 # When enabled, modules that support sanitizers should opt-in to
 # address/UB sanitizers for their library, tests, and examples.
-# Each module decides *how* it applies these flags.
+# Each module decides how it applies these flags.
 # ====================================================================
 
 option(RIX_ENABLE_SANITIZERS  "Enable sanitizers for all rix modules (where supported)" OFF)
 
-# For now, only rix-io uses module-specific options:
+# For now, only io uses module-specific options:
 #   - RIX_IO_BUILD_TESTS
 #   - RIX_IO_BUILD_EXAMPLES
 #   - RIX_IO_ENABLE_SANITIZERS
 if (RIX_ENABLE_IO)
-  set(RIX_IO_BUILD_TESTS         ${RIX_ENABLE_TESTS}       CACHE BOOL "Build rix-io tests"         FORCE)
-  set(RIX_IO_BUILD_EXAMPLES      ${RIX_ENABLE_EXAMPLES}    CACHE BOOL "Build rix-io examples"      FORCE)
-  set(RIX_IO_ENABLE_SANITIZERS   ${RIX_ENABLE_SANITIZERS}  CACHE BOOL "Enable sanitizers in rix-io" FORCE)
+  set(RIX_IO_BUILD_TESTS        ${RIX_ENABLE_TESTS}       CACHE BOOL "Build io tests"         FORCE)
+  set(RIX_IO_BUILD_EXAMPLES     ${RIX_ENABLE_EXAMPLES}    CACHE BOOL "Build io examples"      FORCE)
+  set(RIX_IO_ENABLE_SANITIZERS  ${RIX_ENABLE_SANITIZERS}  CACHE BOOL "Enable sanitizers in io" FORCE)
 endif()
 
 # ====================================================================
@@ -117,17 +118,17 @@ endif()
 # ====================================================================
 # As modules are added, they should:
 #   - be guarded by their RIX_ENABLE_<NAME> option
-#   - add_subdirectory(modules/rix-<name>)
+#   - add_subdirectory(modules/<name>)
 #   - append their rix::<name> target to RIX_ENABLED_MODULE_TARGETS
 # ====================================================================
 
 set(RIX_ENABLED_MODULE_TARGETS "")
 
-# ------------- rix-io ------------------------------------------------
+# ------------- io ----------------------------------------------------
 if (RIX_ENABLE_IO)
-  add_subdirectory(modules/rix-io)
+  add_subdirectory(modules/io)
 
-  # rix-io is expected to define the target rix::io
+  # io is expected to define the target rix::io
   if (TARGET rix::io)
     list(APPEND RIX_ENABLED_MODULE_TARGETS rix::io)
   endif()
@@ -138,20 +139,20 @@ endif()
 # Example pattern to follow when wiring new modules:
 #
 # if (RIX_ENABLE_STRING)
-#   add_subdirectory(modules/rix-string)
+#   add_subdirectory(modules/string)
 #   if (TARGET rix::string)
 #     list(APPEND RIX_ENABLED_MODULE_TARGETS rix::string)
 #   endif()
 # endif()
 #
 # if (RIX_ENABLE_JSON)
-#   add_subdirectory(modules/rix-json)
+#   add_subdirectory(modules/json)
 #   if (TARGET rix::json)
 #     list(APPEND RIX_ENABLED_MODULE_TARGETS rix::json)
 #   endif()
 # endif()
 #
-# ...and so on for each rix-* module.
+# ...and so on for each module.
 #
 # --------------------------------------------------------------------
 
@@ -222,7 +223,7 @@ install(
 
 # Note:
 #   - Headers for each module are installed by the module itself
-#     (e.g. rix-io installs include/rix/io/*.hpp).
+#     (e.g. io installs include/rix/io/*.hpp).
 #   - If an umbrella header (e.g. <rix/rix.hpp>) is added later, it
 #     should be installed here at the top level.
 
