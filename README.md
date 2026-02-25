@@ -55,8 +55,6 @@ But it does not give you:
 
 When building a runtime like Vix, this fragmentation becomes a liability.
 
----
-
 ## Why Rix exists
 
 Rix exists because Vix cannot depend on:
@@ -76,8 +74,6 @@ A runtime must be:
 - Predictable under load
 
 Rix provides that base layer.
-
----
 
 ## The current ecosystem problem
 
@@ -99,8 +95,6 @@ C++ does not.
 
 Rix is an attempt to restore cohesion.
 
----
-
 ## Rix is not trying to replace the STL
 
 Rix does not compete with the standard library.
@@ -120,8 +114,6 @@ It is intentionally small.
 It is intentionally opinionated.
 
 It is intentionally boring.
-
----
 
 ## Designed for Vix. Useful beyond Vix.
 

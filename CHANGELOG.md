@@ -6,6 +6,26 @@ This project follows **Semantic Versioning** (SemVer).
 
 📘 **README**: https://github.com/rixcpp/rix/blob/v0.2.0/README.md
 
+## v0.4.0
+
+### Added
+- Top-level `CMakePresets.json`
+- Unified testing workflow via CTest presets
+- Header-only refactor for `rix::io`
+
+### Changed
+- Refined umbrella `CMakeLists.txt`
+- Improved module wiring and export consistency
+- Updated README structure and documentation clarity
+
+### Removed
+- Legacy `file.cpp` implementation
+- Old file-specific tests replaced by unified `test_basic.cpp`
+
+### Notes
+This release focuses on structural stability, cleaner module boundaries,
+and predictable testing behavior across the Rix ecosystem.
+
 # Rix v0.3.1
 
 ## Fixed
