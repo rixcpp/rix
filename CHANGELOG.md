@@ -6,6 +6,14 @@ This project follows **Semantic Versioning** (SemVer).
 
 📘 **README**: https://github.com/rixcpp/rix/blob/v0.2.0/README.md
 
+# Rix v0.3.1
+
+## Fixed
+
+- Corrected README header rendering issue (HTML table/image display)
+
+No functional or structural changes.
+
 ---
 # Rix v0.3.0
 
