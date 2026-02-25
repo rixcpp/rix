@@ -141,8 +141,6 @@ But any modern C++ project that values:
 
 can benefit from it.
 
----
-
 ## Philosophy
 
 - Explicit over implicit
@@ -151,16 +149,12 @@ can benefit from it.
 - Small over complex
 - Runtime-first design
 
----
-
 ## Status
 
 Rix is under active development as part of the Vix ecosystem.
 
 Each module is versioned independently.
 The umbrella project provides a unified integration layer.
-
----
 
 ## License
 
