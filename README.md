@@ -1,119 +1,280 @@
-<p align="center" style="margin:0;">
-  <img 
-    src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1766830420/banniere_qfghep.png" 
-    alt="Rix Banner" 
-    width="100%" 
-    style="
-      display:block;
-      height:auto;
-      max-width:900px;
-      margin:auto;
-      object-fit:cover;
-      border-radius:8px;
-    ">
+<table>
+  <tr>
+    <td valign="top" width="68%">
+
+<h1>Rix</h1>
+
+<p>
+  <a href="https://x.com/vixcpp">
+    <img src="https://img.shields.io/badge/X-Follow-black?logo=x" alt="X" />
+  </a>
+  <a href="https://www.youtube.com/@vixcpp">
+    <img src="https://img.shields.io/badge/YouTube-Subscribe-red?logo=youtube" alt="YouTube" />
+  </a>
+  <img src="https://img.shields.io/github/stars/rixcpp/rix?style=flat" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/rixcpp/rix?style=flat" alt="Forks" />
 </p>
 
-<h1 align="center">Rix - Minimal Modern C++ Standard Library</h1>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/C++20-Standard-blue">
-  <img src="https://img.shields.io/badge/License-MIT-green">
+<p>
+  <b>Rix</b> is the foundational standard library of <b>Vix.cpp</b>.<br/>
+  A minimal, deterministic, modular base layer for modern C++ systems.
 </p>
 
-# Rix is a lightweight and modern collection of essential utilities
+<p>
+  🌍 <a href="https://vixcpp.com">vixcpp.com</a><br />
+  📘 <a href="https://vixcpp.com/docs">Documentation</a>
+</p>
 
-designed for C++20 and beyond.\
-It serves as a modular, header-only, minimal standard library, ideal
-for:
+    </td>
+    <td valign="top" width="32%" align="right">
+      <img
+        src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1766830420/banniere_qfghep.png"
+        alt="Rix Logo"
+        width="260"/>
+    </td>
+  </tr>
+</table>
 
-- Modern C++ development
-- Embedded / lightweight projects
-- High-performance frameworks like Vix.cpp
-- Developers who want a clean, consistent, simplified alternative to
-  the STL
+<hr />
 
-Each module is provided as a standalone repository, while `rix` (the
-umbrella project) offers a unified interface for convenience.
+## C++ is powerful. But it is not cohesive.
 
----
+Modern C++ gives you:
 
-## Modules
+- The STL
+- Boost
+- Header-only utilities
+- Third-party abstractions
+- Countless competing patterns
 
-| Module           | Namespace         | Description                                                                                  |
-| ---------------- | ----------------- | -------------------------------------------------------------------------------------------- |
-| `rix-io`         | `rix::io`         | File and I/O utilities: reading and writing text and binary data.                            |
-| `rix-memory`     | `rix::memory`     | Memory management utilities, smart pointers, and RAII helpers.                               |
-| `rix-containers` | `rix::containers` | Core containers: vector, map, set implementations using modern C++.                          |
-| `rix-algo`       | `rix::algo`       | Common algorithms: sorting, searching, transformations.                                      |
-| `rix-string`     | `rix::string`     | String manipulation utilities and helper functions.                                          |
-| `rix-fs`         | `rix::fs`         | Filesystem utilities: paths, directories, file operations.                                   |
-| `rix-net`        | `rix::net`        | TCP/UDP client and server abstractions.                                                      |
-| `rix-json`       | `rix::json`       | JSON parser and serializer for C++20.                                                        |
-| `rix-chrono`     | `rix::chrono`     | Timers, sleep functions, and time measurement utilities.                                     |
-| `rix-log`        | `rix::log`        | Logging utilities: console and file output.                                                  |
-| `rix-process`    | `rix::process`    | Process management utilities for spawning and controlling subprocesses.                      |
-| `rix-util`       | `rix::util`       | General-purpose helper functions for C++ projects.                                           |
-| `rix-async`      | `rix::async`      | Coroutines, futures, and asynchronous primitives.                                            |
-| `rix-thread`     | `rix::thread`     | Thread and synchronization utilities: thread creation, mutex, lock, and condition variables. |
-| `rix-iterator`   | `rix::iterator`   | Iterator utilities and abstractions: range-based helpers, iterator traits, and adapters.     |
-| `rix-assert`     | `rix::assert`     | Assertion utilities for runtime checks and debug validation.                                 |
+But it does not give you:
 
----
+- A coherent runtime-grade foundation
+- Deterministic IO semantics
+- Predictable memory boundaries
+- A minimal, unified systems layer
+- A philosophy aligned with runtime design
 
-## Installation
-
-`rix` modules are **header-only** and can be included individually or via the umbrella `rix` CMake project.
-
-Example using CMake:
-
-```cmake
-# Add rix umbrella as a subdirectory
-add_subdirectory(path/to/rix)
-target_link_libraries(my_project PRIVATE rix::rix)
-```
-
-Include modules in your C++ code:
-
-```cpp
-#include <rix/io/file.h>
-#include <rix/json/json.h>
-#include <rix/net/tcp.h>
-#include <rix/chrono/timer.h>
-```
+When building a runtime like Vix, this fragmentation becomes a liability.
 
 ---
 
-## Usage Example
+## Why Rix exists
 
-```cpp
-#include <rix/io/file.h>
-#include <rix/json/json.h>
-#include <rix/net/tcp.h>
-#include <rix/chrono/timer.h>
+Rix exists because Vix cannot depend on:
 
-int main() {
-    rix::io::File f("test.txt", rix::io::Mode::Write);
-    f.write("Hello Rix!\n");
+- Implicit behavior
+- Hidden global state
+- Surprising allocations
+- Over-engineered abstractions
+- Inconsistent error models
 
-    rix::json::Json j;
-    j["ok"] = true;
+A runtime must be:
 
-    rix::net::TcpClient sock("example.com", 8080);
-    sock.write("PING\n");
+- Auditable
+- Deterministic
+- Stable
+- Maintainable for years
+- Predictable under load
 
-    rix::chrono::Timer t;
-    t.sleep_ms(1000);
-}
-```
+Rix provides that base layer.
 
 ---
 
-## Contributing
+## The current ecosystem problem
 
-Each module is maintained in a separate repository. Contributions should be submitted as pull requests to the corresponding module repository.
+Today, building serious C++ systems often means:
+
+- Mixing STL + Boost + random libraries
+- Fighting API inconsistencies
+- Debugging hidden behavior
+- Managing dependency chaos
+- Losing control over runtime guarantees
+
+There is no small, curated, opinionated foundation.
+
+Rust has one.
+Go has one.
+Deno has one.
+
+C++ does not.
+
+Rix is an attempt to restore cohesion.
+
+---
+
+## Rix is not trying to replace the STL
+
+Rix does not compete with the standard library.
+
+It complements it.
+
+It provides:
+
+- A consistent minimal surface
+- Explicit modular boundaries
+- Runtime-first design
+- Long-term stability
+- Controlled abstractions
+
+It is intentionally small.
+
+It is intentionally opinionated.
+
+It is intentionally boring.
+
+---
+
+## Designed for Vix. Useful beyond Vix.
+
+Rix was built for:
+
+- A modern C++ runtime
+- Offline-first systems
+- High-performance backends
+- Deterministic network services
+- Embedded and constrained environments
+
+But any modern C++ project that values:
+
+- Predictability
+- Simplicity
+- Modular architecture
+
+can benefit from it.
+
+---
+
+## Philosophy
+
+- Explicit over implicit
+- Deterministic over magical
+- Modular over monolithic
+- Small over complex
+- Runtime-first design
+
+---
+
+## What Rix will never become
+
+Rix will never become:
+
+- A bloated mega-framework
+- A Boost replacement
+- A kitchen-sink utility collection
+- A template metaprogramming experiment playground
+- A trendy abstraction layer chasing every new C++ feature
+
+Rix will not:
+
+- Add features for the sake of features
+- Add magic to reduce a few lines of code
+- Hide allocation behavior
+- Hide thread-safety assumptions
+- Introduce unstable APIs every 6 months
+
+If something does not serve:
+
+- Determinism
+- Runtime stability
+- Long-term maintainability
+- Auditability
+
+It does not belong in Rix.
+
+---
+
+## Long-term vision (10 years horizon)
+
+Rix is not a short-term experiment.
+
+The goal is to build a foundation that:
+
+- Still compiles cleanly in 10 years
+- Still has predictable behavior
+- Still has a small surface area
+- Still has no hidden global state
+- Still serves as the backbone of Vix
+
+In 10 years:
+
+- Rix should feel boring
+- Rix should feel stable
+- Rix should feel obvious
+- Rix should feel inevitable
+
+Not trendy.
+
+Not over-engineered.
+
+Not rewritten every year.
+
+A true runtime foundation is not flashy.
+
+It is dependable.
+
+---
+
+## A radical stance
+
+Modern software is drowning in:
+
+- Abstraction layers
+- Dependency chains
+- Version conflicts
+- Hidden runtime costs
+- Accidental complexity
+
+Rix chooses:
+
+- Fewer dependencies
+- Smaller APIs
+- Explicit behavior
+- Clear contracts
+- Deterministic design
+
+This is not minimalism for aesthetics.
+
+It is minimalism for survival.
+
+---
+
+## Why this matters
+
+If Vix succeeds as a runtime, it cannot depend on chaos.
+
+It needs:
+
+- A controlled base
+- A stable contract
+- A predictable execution model
+
+Rix is that contract.
+
+Not because the STL is bad.
+
+But because a runtime needs more discipline than the general ecosystem provides.
+
+---
+
+Rix is not trying to be everything.
+
+It is trying to be solid.
+
+And solid things last.
+
+## Status
+
+Rix is under active development as part of the Vix ecosystem.
+
+Each module is versioned independently.
+The umbrella project provides a unified integration layer.
 
 ---
 
 ## License
 
 MIT License
+
+Copyright (c) 2026 Vix.cpp
+Authors: Gaspard Kirira
