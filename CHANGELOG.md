@@ -7,6 +7,46 @@ This project follows **Semantic Versioning** (SemVer).
 📘 **README**: https://github.com/rixcpp/rix/blob/v0.2.0/README.md
 
 ---
+# Rix v0.3.0
+
+## Overview
+
+This release restructures the Rix umbrella project and clarifies its long-term positioning as the foundational standard library of Vix.
+
+---
+
+## Changed
+
+- Removed `rix-` prefix from module directories
+- Renamed submodules to align with public repository naming (`io`, `json`, etc.)
+- Updated umbrella CMake configuration to reflect new structure
+- Cleaned example paths
+- Modernized and simplified module wiring
+
+---
+
+## Documentation
+
+- Complete strategic rewrite of the main README
+- Clarified Rix positioning within the Vix ecosystem
+- Defined long-term vision and philosophy
+- Added "What Rix will never become" section
+
+---
+
+## Internal
+
+- Submodule structure cleanup
+- Improved naming consistency across the project
+- Improved installation/export consistency
+
+---
+
+## Notes
+
+This release does not introduce breaking API changes.
+
+It strengthens structural coherence and prepares Rix for long-term stability within the Vix ecosystem.
 
 ## [v0.2.0] — 2025-12-27
 
