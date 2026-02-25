@@ -1,0 +1,98 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev-ninja",
+      "displayName": "Dev (Ninja)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "RIX_ENABLE_IO": "ON",
+        "RIX_ENABLE_TESTS": "ON",
+        "RIX_ENABLE_EXAMPLES": "ON",
+        "RIX_ENABLE_SANITIZERS": "OFF"
+      }
+    },
+    {
+      "name": "release-ninja",
+      "displayName": "Release (Ninja)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-ninja-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "RIX_ENABLE_IO": "ON",
+        "RIX_ENABLE_TESTS": "ON",
+        "RIX_ENABLE_EXAMPLES": "OFF",
+        "RIX_ENABLE_SANITIZERS": "OFF"
+      }
+    },
+    {
+      "name": "asan-ninja",
+      "displayName": "ASAN/UBSAN (Ninja)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-ninja-asan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "RIX_ENABLE_IO": "ON",
+        "RIX_ENABLE_TESTS": "ON",
+        "RIX_ENABLE_EXAMPLES": "ON",
+        "RIX_ENABLE_SANITIZERS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev-ninja",
+      "configurePreset": "dev-ninja"
+    },
+    {
+      "name": "release-ninja",
+      "configurePreset": "release-ninja"
+    },
+    {
+      "name": "asan-ninja",
+      "configurePreset": "asan-ninja"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev-ninja",
+      "configurePreset": "dev-ninja",
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "release-ninja",
+      "configurePreset": "release-ninja",
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "asan-ninja",
+      "configurePreset": "asan-ninja",
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

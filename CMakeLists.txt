@@ -113,6 +113,12 @@ if (RIX_ENABLE_IO)
   set(RIX_IO_ENABLE_SANITIZERS  ${RIX_ENABLE_SANITIZERS}  CACHE BOOL "Enable sanitizers in io" FORCE)
 endif()
 
+# Enable CTest at the umbrella level when tests are enabled.
+# This ensures CTest infrastructure is generated in the top-level build dir.
+if (RIX_ENABLE_TESTS)
+  enable_testing()
+endif()
+
 # ====================================================================
 # Modules
 # ====================================================================
@@ -239,4 +245,5 @@ message(STATUS "Enabled modules      : ${RIX_ENABLED_MODULE_TARGETS}")
 message(STATUS "Tests enabled        : ${RIX_ENABLE_TESTS}")
 message(STATUS "Examples enabled     : ${RIX_ENABLE_EXAMPLES}")
 message(STATUS "Sanitizers enabled   : ${RIX_ENABLE_SANITIZERS}")
+message(STATUS "Binary dir           : ${CMAKE_BINARY_DIR}")
 message(STATUS "======================================================")
