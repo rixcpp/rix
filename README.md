@@ -25,11 +25,9 @@
   📘 <a href="https://vixcpp.com/docs">Documentation</a>
 </p>
 
-    </td>
-    <td valign="top" width="32%" align="right">
-      <img
-        src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1766830420/banniere_qfghep.png"
-        alt="Rix Logo"
+</td>
+  <td valign="top" width="32%" align="right">
+      <img src="https://res.cloudinary.com/dwjbed2xb/image/upload/v1766830420/banniere_qfghep.png" alt="Rix Logo"
         width="260"/>
     </td>
   </tr>
@@ -154,114 +152,6 @@ can benefit from it.
 - Runtime-first design
 
 ---
-
-## What Rix will never become
-
-Rix will never become:
-
-- A bloated mega-framework
-- A Boost replacement
-- A kitchen-sink utility collection
-- A template metaprogramming experiment playground
-- A trendy abstraction layer chasing every new C++ feature
-
-Rix will not:
-
-- Add features for the sake of features
-- Add magic to reduce a few lines of code
-- Hide allocation behavior
-- Hide thread-safety assumptions
-- Introduce unstable APIs every 6 months
-
-If something does not serve:
-
-- Determinism
-- Runtime stability
-- Long-term maintainability
-- Auditability
-
-It does not belong in Rix.
-
----
-
-## Long-term vision (10 years horizon)
-
-Rix is not a short-term experiment.
-
-The goal is to build a foundation that:
-
-- Still compiles cleanly in 10 years
-- Still has predictable behavior
-- Still has a small surface area
-- Still has no hidden global state
-- Still serves as the backbone of Vix
-
-In 10 years:
-
-- Rix should feel boring
-- Rix should feel stable
-- Rix should feel obvious
-- Rix should feel inevitable
-
-Not trendy.
-
-Not over-engineered.
-
-Not rewritten every year.
-
-A true runtime foundation is not flashy.
-
-It is dependable.
-
----
-
-## A radical stance
-
-Modern software is drowning in:
-
-- Abstraction layers
-- Dependency chains
-- Version conflicts
-- Hidden runtime costs
-- Accidental complexity
-
-Rix chooses:
-
-- Fewer dependencies
-- Smaller APIs
-- Explicit behavior
-- Clear contracts
-- Deterministic design
-
-This is not minimalism for aesthetics.
-
-It is minimalism for survival.
-
----
-
-## Why this matters
-
-If Vix succeeds as a runtime, it cannot depend on chaos.
-
-It needs:
-
-- A controlled base
-- A stable contract
-- A predictable execution model
-
-Rix is that contract.
-
-Not because the STL is bad.
-
-But because a runtime needs more discipline than the general ecosystem provides.
-
----
-
-Rix is not trying to be everything.
-
-It is trying to be solid.
-
-And solid things last.
 
 ## Status
 
