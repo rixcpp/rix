@@ -107,11 +107,11 @@ namespace
   {
     std::ostringstream out;
 
-    rix.debug.print.to(out, "Hello {}", "Rix");
+    rixlib::print_to(out, "Hello", "Rix");
 
     expect_true(
         out.str() == "Hello Rix\n",
-        "rix.debug.print.to should write formatted output with newline");
+        "rixlib::print_to should write arguments separated by spaces with newline");
   }
 
   void test_global_rix_debug_inspect_to_string()

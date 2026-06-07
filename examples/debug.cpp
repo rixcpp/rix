@@ -5,11 +5,9 @@
 
 #include <rix.hpp>
 
-#include <string>
-
 int main()
 {
-  rix.debug.print("Hello {}", "Rix");
+  rix.debug.print("Hello", "Rix");
 
   const std::string package = rix.debug.format("Package: {}", "rix/rix");
 

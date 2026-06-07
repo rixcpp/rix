@@ -7,7 +7,7 @@
 
 int main()
 {
-  rix.debug.print("Hello {}", "Rix");
+  rix.debug.print("Hello", "Rix");
   rix.debug.log("facade is ready");
 
   return 0;

@@ -5,6 +5,7 @@
 
 #include <rix.hpp>
 
+#include <sstream>
 #include <string>
 
 namespace
@@ -13,12 +14,19 @@ namespace
   {
     for (const auto &row : table)
     {
-      for (const auto &field : row)
+      std::ostringstream line;
+
+      for (std::size_t i = 0; i < row.size(); ++i)
       {
-        rix.debug.print.inline_text("{} ", field);
+        if (i > 0)
+        {
+          line << " ";
+        }
+
+        line << row[i];
       }
 
-      rix.debug.print();
+      rix.debug.print(line.str());
     }
   }
 }

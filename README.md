@@ -9,8 +9,10 @@ It gives Vix C++ projects a single optional facade object:
 
 int main()
 {
-  rix.debug.print("Hello {}", "Rix");
+  rix.debug.print("Hello", "Rix");
+
   auto table = rix.csv.parse("name,language\nAda,C++\n");
+
   rix.debug.log("loaded {} rows", table.size());
 }
 ```
@@ -64,7 +66,7 @@ vix install
 
 int main()
 {
-  rix.debug.print("Hello {}", "Rix");
+  rix.debug.print("Hello", "Rix");
 
   const auto message = rix.debug.format("Package: {}", "rix/rix");
 
@@ -95,16 +97,15 @@ int main()
       "Gaspard,Vix\n";
 
   const auto table = rix.csv.parse(input);
+
   rix.debug.log("loaded {} rows", table.size());
 
   for (const auto &row : table)
   {
     for (const auto &field : row)
     {
-      rix.debug.print.inline_text("{} ", field);
+      rix.debug.print(field);
     }
-
-    rix.debug.print();
   }
 
   return 0;
@@ -118,7 +119,7 @@ int main()
 
 int main()
 {
-  rix.debug.print("Hello {}", "Rix");
+  rix.debug.print("Hello", "Rix");
 
   auto text = rix.debug.format("Package: {}", "rix/rix");
 
@@ -129,6 +130,37 @@ int main()
 
   return 0;
 }
+```
+
+## Print and format
+
+`rix.debug.print` does not replace `{}` placeholders.
+
+It prints values separated by spaces:
+
+```cpp
+rix.debug.print("Hello", "Rix");
+rix.debug.print(1, 2, 3);
+```
+
+Output:
+
+```txt
+Hello Rix
+1 2 3
+```
+
+For placeholder formatting, use `rix.debug.format`:
+
+```cpp
+auto text = rix.debug.format("Hello {}", "Rix");
+rix.debug.print(text);
+```
+
+Or use `rix.debug.log` directly:
+
+```cpp
+rix.debug.log("Hello {}", "Rix");
 ```
 
 ## Independent packages
@@ -167,7 +199,9 @@ vix install
 int main()
 {
   rixlib::debug::Debug debug;
-  debug.print("Hello {}", "Rix");
+
+  debug.print("Hello", "Rix");
+  debug.log("loaded {} rows", 3);
 
   return 0;
 }

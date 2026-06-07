@@ -12,7 +12,8 @@
  *
  * @code
  * auto table = rix.csv.parse("name,lang\nAda,C++\n");
- * rix.debug.print("loaded {} rows", table.size());
+ * rix.debug.print("loaded rows:", table.size());
+ * rix.debug.log("loaded {} rows", table.size());
  * @endcode
  *
  * @author Gaspard Kirira
