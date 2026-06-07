@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(rix
-  VERSION 0.1.0
+  VERSION 0.5.0
   DESCRIPTION "Unified Rix facade for Vix C++ projects"
   LANGUAGES CXX
 )
@@ -25,6 +25,7 @@ target_include_directories(rix
 target_link_libraries(rix
   INTERFACE
     rix::csv
+    rix::debug
 )
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)

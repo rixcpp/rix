@@ -6,6 +6,10 @@
     {
       "id": "rix/csv",
       "version": "0.2.0"
+    },
+    {
+      "id": "rix/debug",
+      "version": "0.1.0"
     }
   ],
   "description": "Unified Rix facade for Vix C++ projects.",
@@ -28,5 +32,5 @@
   "namespace": "rix",
   "repository": "https://github.com/rixcpp/rix",
   "type": "header-only",
-  "version": "0.5.0"
+  "version": "0.5.1"
 }

@@ -5,13 +5,14 @@
  * This header exposes the global `rix` object.
  *
  * The package `@rix/rix` is the optional unified facade for Rix packages.
- * Individual packages such as `@rix/csv` stay independent, but this facade
- * mounts them into one object-style API.
+ * Individual packages such as `@rix/csv` and `@rix/debug` stay independent,
+ * but this facade mounts them into one object-style API.
  *
  * Example:
  *
  * @code
  * auto table = rix.csv.parse("name,lang\nAda,C++\n");
+ * rix.debug.print("loaded {} rows", table.size());
  * @endcode
  *
  * @author Gaspard Kirira
@@ -21,6 +22,7 @@
 #define RIXCPP_RIX_INCLUDE_RIX_HPP_INCLUDED
 
 #include <rix/csv.hpp>
+#include <rix/debug.hpp>
 
 namespace rixlib
 {
@@ -36,6 +38,11 @@ namespace rixlib
      * @brief CSV reader and writer component.
      */
     rixlib::csv::Csv csv{};
+
+    /**
+     * @brief Debug printing, formatting, logging, and inspection component.
+     */
+    rixlib::debug::Debug debug{};
   };
 }
 
@@ -46,6 +53,10 @@ namespace rixlib
  *
  * @code
  * rix.csv.parse(...)
+ * rix.debug.print(...)
+ * rix.debug.format(...)
+ * rix.debug.log(...)
+ * rix.debug.inspect(...)
  * @endcode
  */
 inline constexpr rixlib::Rix rix{};

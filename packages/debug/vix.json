@@ -1,0 +1,30 @@
+{
+  "name": "debug",
+  "namespace": "rix",
+  "version": "0.1.0",
+  "type": "header-only",
+  "include": "include",
+  "license": "MIT",
+  "description": "Debug printing, formatting, logging, and inspection utilities for Rix.",
+  "keywords": [
+    "cpp",
+    "debug",
+    "print",
+    "format",
+    "log",
+    "inspect",
+    "rix",
+    "vix"
+  ],
+  "repository": "https://github.com/rixcpp/debug",
+  "maintainers": [
+    {
+      "name": "Rix maintainers",
+      "github": "rixcpp"
+    }
+  ],
+  "cmake": {
+    "target": "rix::debug"
+  },
+  "deps": []
+}

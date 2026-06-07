@@ -8,6 +8,15 @@
       "requested": "0.2.0",
       "tag": "v0.2.0",
       "version": "0.2.0"
+    },
+    {
+      "commit": "c6fe0b357d97832bfc3f768635971d2dd10374cf",
+      "hash": "5f5210a66dc1518fc529e3e7dd26b24b1b2621e180df836f78e79b6635bcad7d",
+      "id": "rix/debug",
+      "repo": "https://github.com/rixcpp/debug",
+      "requested": "0.1.0",
+      "tag": "v0.1.0",
+      "version": "0.1.0"
     }
   ],
   "lockVersion": 1
