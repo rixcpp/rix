@@ -1,0 +1,26 @@
+{
+  "name": "csv",
+  "namespace": "rix",
+  "version": "0.2.0",
+  "type": "header-only",
+  "include": "include",
+  "license": "MIT",
+  "description": "Small CSV reader and writer for Vix C++ projects.",
+  "keywords": [
+    "cpp",
+    "csv",
+    "rix",
+    "vix"
+  ],
+  "repository": "https://github.com/rixcpp/csv",
+  "authors": [
+    {
+      "name": "Gaspard Kirira",
+      "github": "rixcpp"
+    }
+  ],
+  "cmake": {
+    "target": "rix::csv"
+  },
+  "deps": []
+}

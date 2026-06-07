@@ -1,0 +1,32 @@
+{
+  "cmake": {
+    "target": "rix::rix"
+  },
+  "deps": [
+    {
+      "id": "rix/csv",
+      "version": "0.2.0"
+    }
+  ],
+  "description": "Unified Rix facade for Vix C++ projects.",
+  "include": "include",
+  "keywords": [
+    "cpp",
+    "rix",
+    "vix",
+    "facade",
+    "standard-library"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "github": "rixcpp",
+      "name": "Rix maintainers"
+    }
+  ],
+  "name": "rix",
+  "namespace": "rix",
+  "repository": "https://github.com/rixcpp/rix",
+  "type": "header-only",
+  "version": "0.5.0"
+}

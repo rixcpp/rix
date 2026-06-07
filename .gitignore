@@ -1,54 +1,12 @@
-# Prerequisites
-*.d
+build*/
+.vix/
+.cache/
 
-# Compiled Object files
-*.slo
-*.lo
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
 *.lib
-
-# Executables
+*.so
+*.dll
+*.dylib
 *.exe
-*.out
-*.app
-
-# debug information files
-*.dwo
-build-ninja/
-build/
-docker/
-.github/
-infra/
-scripts/
-db.sql
-.env
-vix.log
-configs/
-docs/
-cmd.md
-.vscode/

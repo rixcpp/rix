@@ -1,0 +1,14 @@
+{
+  "dependencies": [
+    {
+      "commit": "fb876411810310180692666593eecf05a7962128",
+      "hash": "42e26288f206955e68fbbff1a83ffb8b0b2cb5539a9436dff258959e809a3c80",
+      "id": "rix/csv",
+      "repo": "https://github.com/rixcpp/csv",
+      "requested": "0.2.0",
+      "tag": "v0.2.0",
+      "version": "0.2.0"
+    }
+  ],
+  "lockVersion": 1
+}
