@@ -1,17 +1,17 @@
 {
   "dependencies": [
     {
-      "commit": "fb876411810310180692666593eecf05a7962128",
-      "hash": "42e26288f206955e68fbbff1a83ffb8b0b2cb5539a9436dff258959e809a3c80",
+      "commit": "e5e7f817a37d815c61962e6be88259f105d4f54d",
+      "hash": "207c4541664aa32e1ae83730d8ebacc204b10fa0e796cd8b9bcaca3395ae8f5c",
       "id": "rix/csv",
       "repo": "https://github.com/rixcpp/csv",
-      "requested": "0.2.0",
-      "tag": "v0.2.0",
-      "version": "0.2.0"
+      "requested": "0.3.1",
+      "tag": "v0.3.1",
+      "version": "0.3.1"
     },
     {
       "commit": "7ce988db8e20a1d0bcedda81dcb88e4daf01c8a7",
-      "hash": "a5fa071b814c6beb90a3ed49091307651f6ce996b2bf041d009400fca7746f42",
+      "hash": "729461835557e5bf4c332374a08e8773a1fd18d9521a0e46f0304ee9ee7bac59",
       "id": "rix/debug",
       "repo": "https://github.com/rixcpp/debug",
       "requested": "0.2.0",
