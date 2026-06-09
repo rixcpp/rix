@@ -1,8 +1,17 @@
 {
   "dependencies": [
     {
+      "commit": "dd4d859d5c50ab37d6e31c1e3c1f514bce35d699",
+      "hash": "0177bce2329f11222aa678f9393264608fc3bf0ad29ae8c5b423f8a303f8bc13",
+      "id": "rix/auth",
+      "repo": "https://github.com/rixcpp/auth",
+      "requested": "0.2.0",
+      "tag": "v0.2.0",
+      "version": "0.2.0"
+    },
+    {
       "commit": "e5e7f817a37d815c61962e6be88259f105d4f54d",
-      "hash": "207c4541664aa32e1ae83730d8ebacc204b10fa0e796cd8b9bcaca3395ae8f5c",
+      "hash": "b9a99bd0ac64d0a3affcb410e067f5b745d892f4c59844e0df4b1a4b9b8bf380",
       "id": "rix/csv",
       "repo": "https://github.com/rixcpp/csv",
       "requested": "0.3.1",
@@ -11,7 +20,7 @@
     },
     {
       "commit": "7ce988db8e20a1d0bcedda81dcb88e4daf01c8a7",
-      "hash": "729461835557e5bf4c332374a08e8773a1fd18d9521a0e46f0304ee9ee7bac59",
+      "hash": "fd1fee375bab12cf6a51a53ebc8f41b93abc757328fda0e7d20272d560de6c5e",
       "id": "rix/debug",
       "repo": "https://github.com/rixcpp/debug",
       "requested": "0.2.0",

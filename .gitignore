@@ -10,3 +10,4 @@ build*/
 *.dll
 *.dylib
 *.exe
+cmd.md

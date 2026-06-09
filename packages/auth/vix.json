@@ -1,0 +1,31 @@
+{
+  "name": "auth",
+  "namespace": "rix",
+  "version": "0.1.0",
+  "type": "library",
+  "include": "include",
+  "license": "MIT",
+  "description": "Ready-to-use authentication package for Vix C++ applications.",
+  "keywords": [
+    "cpp",
+    "auth",
+    "authentication",
+    "users",
+    "sessions",
+    "tokens",
+    "password",
+    "rix",
+    "vix"
+  ],
+  "repository": "https://github.com/rixcpp/auth",
+  "authors": [
+    {
+      "name": "Gaspard Kirira",
+      "github": "rixcpp"
+    }
+  ],
+  "cmake": {
+    "target": "rix::auth"
+  },
+  "deps": []
+}

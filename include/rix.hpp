@@ -5,8 +5,8 @@
  * This header exposes the global `rix` object.
  *
  * The package `@rix/rix` is the optional unified facade for Rix packages.
- * Individual packages such as `@rix/csv` and `@rix/debug` stay independent,
- * but this facade mounts them into one object-style API.
+ * Individual packages such as `@rix/csv`, `@rix/debug`, and `@rix/auth`
+ * stay independent, but this facade mounts them into one object-style API.
  *
  * Example:
  *
@@ -14,6 +14,9 @@
  * auto table = rix.csv.parse("name,lang\nAda,C++\n");
  * rix.debug.print("loaded rows:", table.size());
  * rix.debug.log("loaded {} rows", table.size());
+ *
+ * auto auth = rix.auth.memory();
+ * auto user = auth.register_user({"ada@example.com", "correct-password"});
  * @endcode
  *
  * @author Gaspard Kirira
@@ -22,6 +25,7 @@
 #ifndef RIXCPP_RIX_INCLUDE_RIX_HPP_INCLUDED
 #define RIXCPP_RIX_INCLUDE_RIX_HPP_INCLUDED
 
+#include <rix/auth/AuthModule.hpp>
 #include <rix/csv.hpp>
 #include <rix/debug.hpp>
 
@@ -44,6 +48,11 @@ namespace rixlib
      * @brief Debug printing, formatting, logging, and inspection component.
      */
     rixlib::debug::Debug debug{};
+
+    /**
+     * @brief Authentication component.
+     */
+    rixlib::auth::AuthModule auth{};
   };
 }
 
@@ -58,6 +67,11 @@ namespace rixlib
  * rix.debug.format(...)
  * rix.debug.log(...)
  * rix.debug.inspect(...)
+ * rix.auth.memory()
+ * rix.auth.database(db)
+ * rix.auth.create(users, sessions)
+ * rix.auth.password.hash(...)
+ * rix.auth.config.production()
  * @endcode
  */
 inline constexpr rixlib::Rix rix{};

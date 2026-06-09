@@ -14,7 +14,10 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/.vix/vix_deps.cmake OPTIONAL)
 add_library(rix INTERFACE)
 add_library(rix::rix ALIAS rix)
 
-target_compile_features(rix INTERFACE cxx_std_20)
+target_compile_features(rix
+  INTERFACE
+    cxx_std_20
+)
 
 target_include_directories(rix
   INTERFACE
@@ -26,6 +29,7 @@ target_link_libraries(rix
   INTERFACE
     rix::csv
     rix::debug
+    rix::auth
 )
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
