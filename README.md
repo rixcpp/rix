@@ -1,7 +1,6 @@
 # Rix
 
 Rix is the unified userland library layer for Vix.cpp.
-
 It gives Vix C++ projects a single optional facade object:
 
 ```cpp
@@ -64,10 +63,18 @@ rix.debug.print(...)
 rix.debug.format(...)
 rix.debug.log(...)
 rix.debug.inspect(...)
+
 rix.auth.memory(...)
 rix.auth.database(...)
 rix.auth.password.hash(...)
+rix.auth.password.verify(...)
+rix.auth.config.production(...)
+rix.auth.error.to_string(...)
 ```
+
+Public examples should prefer the unified `rix` facade.
+
+The lower-level `rixlib` namespace is reserved for package implementation details, independent package usage, and advanced integration code.
 
 ## Install
 
@@ -158,20 +165,38 @@ int main()
 int main()
 {
   auto auth = rix.auth.memory();
-  auto registered = auth.register_user(rixlib::auth::RegisterRequest{"ada@example.com","correct-password"});
+
+  auto registered = auth.register_user({
+      "ada@example.com",
+      "correct-password"});
 
   if (registered.failed())
   {
-    rix.debug.eprint("auth error:",rixlib::auth::to_string(registered.error().code()),registered.error().message());
+    const auto &error = registered.error();
+
+    rix.debug.eprint(
+        "auth error:",
+        rix.auth.error.to_string(error),
+        error.message());
+
     return 1;
   }
 
   rix.debug.print("registered user:", registered.value().email());
-  auto login = auth.login(rixlib::auth::LoginRequest{"ada@example.com", "correct-password"});
+
+  auto login = auth.login({
+      "ada@example.com",
+      "correct-password"});
 
   if (login.failed())
   {
-    rix.debug.eprint("auth error:", rixlib::auth::to_string(login.error().code()),login.error().message());
+    const auto &error = login.error();
+
+    rix.debug.eprint(
+        "auth error:",
+        rix.auth.error.to_string(error),
+        error.message());
+
     return 1;
   }
 
@@ -194,10 +219,12 @@ int main()
 
   if (hashed.failed())
   {
+    const auto &error = hashed.error();
+
     rix.debug.eprint(
         "auth error:",
-        rixlib::auth::to_string(hashed.error().code()),
-        hashed.error().message());
+        rix.auth.error.to_string(error),
+        error.message());
 
     return 1;
   }
@@ -226,18 +253,115 @@ rix.auth.memory(config)
 rix.auth.database(db)
 rix.auth.database(db, config)
 
+rix.auth.managed(users, sessions)
+rix.auth.managed(users, sessions, config)
+
 rix.auth.create(users, sessions)
 rix.auth.create(users, sessions, config)
 
 rix.auth.password.hash(...)
 rix.auth.password.verify(...)
+rix.auth.password.accepts(...)
 rix.auth.password.hasher()
 
 rix.auth.config.development()
 rix.auth.config.production()
+rix.auth.config.validate(...)
+rix.auth.config.valid(...)
+
+rix.auth.error.to_string(...)
+rix.auth.error.make(...)
+rix.auth.error.none(...)
+
+rix.auth.stores.memory_users()
+rix.auth.stores.memory_sessions()
+rix.auth.stores.database_users(db)
+rix.auth.stores.database_sessions(db)
 
 rix.auth.version()
 ```
+
+## Auth service creation
+
+Most applications should use the safe managed APIs.
+
+For local examples, tests, and small applications:
+
+```cpp
+auto auth = rix.auth.memory();
+```
+
+For durable applications backed by a Vix database:
+
+```cpp
+auto auth = rix.auth.database(db);
+```
+
+For custom stores where Rix should own the store lifetime:
+
+```cpp
+auto users = rix.auth.stores.memory_users();
+auto sessions = rix.auth.stores.memory_sessions();
+
+auto auth = rix.auth.managed(
+    std::move(users),
+    std::move(sessions));
+
+if (auth.failed())
+{
+  const auto &error = auth.error();
+
+  rix.debug.eprint(
+      "auth error:",
+      rix.auth.error.to_string(error),
+      error.message());
+
+  return 1;
+}
+```
+
+`rix.auth.managed(...)` is the preferred custom-store API because it owns the stores inside the returned auth service.
+
+### Advanced: `rix.auth.create(...)`
+
+`rix.auth.create(...)` is an advanced API for caller-owned stores.
+
+It does not own the user store or session store. The caller must ensure both stores live longer than the returned auth service.
+
+Correct usage:
+
+```cpp
+auto users = rix.auth.stores.memory_users();
+auto sessions = rix.auth.stores.memory_sessions();
+
+auto auth = rix.auth.create(
+    *users,
+    *sessions);
+```
+
+In this example, `users` and `sessions` must remain alive while `auth` is used.
+
+For public application code, prefer:
+
+```cpp
+auto auth = rix.auth.memory();
+```
+
+or:
+
+```cpp
+auto auth = rix.auth.database(db);
+```
+
+or:
+
+```cpp
+auto auth = rix.auth.managed(
+    rix.auth.stores.memory_users(),
+    rix.auth.stores.memory_sessions());
+```
+
+Use `create(...)` only when you intentionally want to manage store lifetime yourself.
 
 ## Print and format
 
@@ -341,6 +465,10 @@ int main()
   return registered.ok() ? 0 : 1;
 }
 ```
+
+Independent packages expose their own lower-level APIs.
+
+For the unified public facade, prefer `@rix/rix` and `#include <rix.hpp>`.
 
 ## Repository layout
 
@@ -454,11 +582,15 @@ rix.debug.inspect(...)
 
 rix.auth.memory(...)
 rix.auth.database(...)
+rix.auth.managed(...)
 rix.auth.create(...)
 rix.auth.password.hash(...)
 rix.auth.password.verify(...)
 rix.auth.config.development(...)
 rix.auth.config.production(...)
+rix.auth.error.to_string(...)
+rix.auth.stores.memory_users(...)
+rix.auth.stores.memory_sessions(...)
 ```
 
 ## License

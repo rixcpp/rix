@@ -1,13 +1,13 @@
 {
   "dependencies": [
     {
-      "commit": "dd4d859d5c50ab37d6e31c1e3c1f514bce35d699",
-      "hash": "0177bce2329f11222aa678f9393264608fc3bf0ad29ae8c5b423f8a303f8bc13",
+      "commit": "c7406e0cc5b16e60acb8dfcfd8b33fa249551e18",
+      "hash": "f34b37a2a5da3cf5dc1a26337b6c1193014eec4633346da5677782dea916bcb7",
       "id": "rix/auth",
       "repo": "https://github.com/rixcpp/auth",
-      "requested": "0.2.0",
-      "tag": "v0.2.0",
-      "version": "0.2.0"
+      "requested": "0.3.0",
+      "tag": "v0.3.0",
+      "version": "0.3.0"
     },
     {
       "commit": "e5e7f817a37d815c61962e6be88259f105d4f54d",
