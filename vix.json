@@ -36,5 +36,5 @@
   "namespace": "rix",
   "repository": "https://github.com/rixcpp/rix",
   "type": "header-only",
-  "version": "0.7.0"
+  "version": "0.8.0"
 }
