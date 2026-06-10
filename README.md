@@ -15,10 +15,7 @@ int main()
   rix.debug.log("loaded {} rows", table.size());
 
   auto auth = rix.auth.memory();
-
-  auto registered = auth.register_user({
-      "ada@example.com",
-      "correct-password"});
+  auto registered = auth.register_user({"ada@example.com","correct-password"});
 
   if (registered.ok())
   {
@@ -91,9 +88,7 @@ vix install
 int main()
 {
   rix.debug.print("Hello", "Rix");
-
   const auto message = rix.debug.format("Package: {}", "rix/rix");
-
   rix.debug.log("message: {}", message);
 
   return 0;
@@ -165,38 +160,24 @@ int main()
 int main()
 {
   auto auth = rix.auth.memory();
-
-  auto registered = auth.register_user({
-      "ada@example.com",
-      "correct-password"});
+  auto registered = auth.register_user({"ada@example.com","correct-password"});
 
   if (registered.failed())
   {
     const auto &error = registered.error();
-
-    rix.debug.eprint(
-        "auth error:",
-        rix.auth.error.to_string(error),
-        error.message());
+    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
 
     return 1;
   }
 
   rix.debug.print("registered user:", registered.value().email());
 
-  auto login = auth.login({
-      "ada@example.com",
-      "correct-password"});
+  auto login = auth.login({"ada@example.com","correct-password"});
 
   if (login.failed())
   {
     const auto &error = login.error();
-
-    rix.debug.eprint(
-        "auth error:",
-        rix.auth.error.to_string(error),
-        error.message());
-
+    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
     return 1;
   }
 
@@ -220,22 +201,12 @@ int main()
   if (hashed.failed())
   {
     const auto &error = hashed.error();
-
-    rix.debug.eprint(
-        "auth error:",
-        rix.auth.error.to_string(error),
-        error.message());
-
+    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
     return 1;
   }
 
-  const bool valid = rix.auth.password.verify(
-      "correct-password",
-      hashed.value());
-
-  const bool invalid = rix.auth.password.verify(
-      "wrong-password",
-      hashed.value());
+  const bool valid = rix.auth.password.verify("correct-password",hashed.value());
+  const bool invalid = rix.auth.password.verify("wrong-password",hashed.value());
 
   rix.debug.print("valid password:", valid ? "yes" : "no");
   rix.debug.print("wrong password:", invalid ? "yes" : "no");
@@ -303,18 +274,12 @@ For custom stores where Rix should own the store lifetime:
 auto users = rix.auth.stores.memory_users();
 auto sessions = rix.auth.stores.memory_sessions();
 
-auto auth = rix.auth.managed(
-    std::move(users),
-    std::move(sessions));
+auto auth = rix.auth.managed(std::move(users),std::move(sessions));
 
 if (auth.failed())
 {
   const auto &error = auth.error();
-
-  rix.debug.eprint(
-      "auth error:",
-      rix.auth.error.to_string(error),
-      error.message());
+  rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
 
   return 1;
 }
@@ -333,10 +298,7 @@ Correct usage:
 ```cpp
 auto users = rix.auth.stores.memory_users();
 auto sessions = rix.auth.stores.memory_sessions();
-
-auto auth = rix.auth.create(
-    *users,
-    *sessions);
+auto auth = rix.auth.create(*users,*sessions);
 ```
 
 In this example, `users` and `sessions` must remain alive while `auth` is used.
@@ -358,7 +320,8 @@ or:
 ```cpp
 auto auth = rix.auth.managed(
     rix.auth.stores.memory_users(),
-    rix.auth.stores.memory_sessions());
+    rix.auth.stores.memory_sessions()
+);
 ```
 
 Use `create(...)` only when you intentionally want to manage store lifetime yourself.
@@ -456,11 +419,13 @@ int main()
   rixlib::auth::Auth auth{
       users,
       sessions,
-      rixlib::auth::AuthConfig::development()};
+      rixlib::auth::AuthConfig::development()
+  };
 
   auto registered = auth.register_user({
       "ada@example.com",
-      "correct-password"});
+      "correct-password"
+  });
 
   return registered.ok() ? 0 : 1;
 }
