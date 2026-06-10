@@ -14,6 +14,10 @@
     {
       "id": "rix/auth",
       "version": "0.3.0"
+    },
+    {
+      "id": "rix/pdf",
+      "version": "0.1.0"
     }
   ],
   "description": "Unified Rix facade for Vix C++ projects.",
@@ -36,5 +40,5 @@
   "namespace": "rix",
   "repository": "https://github.com/rixcpp/rix",
   "type": "header-only",
-  "version": "0.8.0"
+  "version": "0.9.0"
 }

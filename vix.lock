@@ -26,6 +26,15 @@
       "requested": "0.2.0",
       "tag": "v0.2.0",
       "version": "0.2.0"
+    },
+    {
+      "commit": "c7c56efc6a04f285f05c52849186680aa7f342e7",
+      "hash": "d58fb505d6e9ecd780e1dad4c7916761a5710a350bc1ea8c11678a7a1f843550",
+      "id": "rix/pdf",
+      "repo": "https://github.com/rixcpp/pdf",
+      "requested": "0.1.0",
+      "tag": "v0.1.0",
+      "version": "0.1.0"
     }
   ],
   "lockVersion": 1

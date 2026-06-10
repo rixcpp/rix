@@ -30,6 +30,7 @@ target_link_libraries(rix
     rix::csv
     rix::debug
     rix::auth
+    rix::pdf
 )
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)

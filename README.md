@@ -1,6 +1,7 @@
 # Rix
 
 Rix is the unified userland library layer for Vix.cpp.
+
 It gives Vix C++ projects a single optional facade object:
 
 ```cpp
@@ -15,11 +16,30 @@ int main()
   rix.debug.log("loaded {} rows", table.size());
 
   auto auth = rix.auth.memory();
-  auto registered = auth.register_user({"ada@example.com","correct-password"});
+
+  auto registered = auth.register_user({
+      "ada@example.com",
+      "correct-password"});
 
   if (registered.ok())
   {
     rix.debug.print("registered:", registered.value().email());
+  }
+
+  auto doc = rix.pdf.document();
+
+  auto &page = doc.add_page();
+
+  page.text(
+      page.x_left(),
+      page.y_top(),
+      "Hello from rix.pdf");
+
+  auto saved = rix.pdf.save(doc, "hello.pdf");
+
+  if (saved.ok())
+  {
+    rix.debug.print("created:", "hello.pdf");
   }
 
   return 0;
@@ -40,6 +60,7 @@ Rix is built around two levels.
 @rix/csv
 @rix/debug
 @rix/auth
+@rix/pdf
 @rix/config
 @rix/table
 ```
@@ -67,6 +88,13 @@ rix.auth.password.hash(...)
 rix.auth.password.verify(...)
 rix.auth.config.production(...)
 rix.auth.error.to_string(...)
+
+rix.pdf.document()
+rix.pdf.save(...)
+rix.pdf.write(...)
+rix.pdf.make_text(...)
+rix.pdf.image.load_jpeg(...)
+rix.pdf.error.to_string(...)
 ```
 
 Public examples should prefer the unified `rix` facade.
@@ -88,7 +116,9 @@ vix install
 int main()
 {
   rix.debug.print("Hello", "Rix");
+
   const auto message = rix.debug.format("Package: {}", "rix/rix");
+
   rix.debug.log("message: {}", message);
 
   return 0;
@@ -102,6 +132,7 @@ int main()
 | `@rix/csv`   | `rix.csv`   | Small CSV reader and writer for Vix C++ projects.              |
 | `@rix/debug` | `rix.debug` | Debug printing, formatting, logging, and inspection utilities. |
 | `@rix/auth`  | `rix.auth`  | Production-oriented authentication for Vix C++ applications.   |
+| `@rix/pdf`   | `rix.pdf`   | PDF generation and document utilities for Vix C++ apps.        |
 
 ## CSV example
 
@@ -160,24 +191,38 @@ int main()
 int main()
 {
   auto auth = rix.auth.memory();
-  auto registered = auth.register_user({"ada@example.com","correct-password"});
+
+  auto registered = auth.register_user({
+      "ada@example.com",
+      "correct-password"});
 
   if (registered.failed())
   {
     const auto &error = registered.error();
-    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
+
+    rix.debug.eprint(
+        "auth error:",
+        rix.auth.error.to_string(error),
+        error.message());
 
     return 1;
   }
 
   rix.debug.print("registered user:", registered.value().email());
 
-  auto login = auth.login({"ada@example.com","correct-password"});
+  auto login = auth.login({
+      "ada@example.com",
+      "correct-password"});
 
   if (login.failed())
   {
     const auto &error = login.error();
-    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
+
+    rix.debug.eprint(
+        "auth error:",
+        rix.auth.error.to_string(error),
+        error.message());
+
     return 1;
   }
 
@@ -201,17 +246,166 @@ int main()
   if (hashed.failed())
   {
     const auto &error = hashed.error();
-    rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
+
+    rix.debug.eprint(
+        "auth error:",
+        rix.auth.error.to_string(error),
+        error.message());
+
     return 1;
   }
 
-  const bool valid = rix.auth.password.verify("correct-password",hashed.value());
-  const bool invalid = rix.auth.password.verify("wrong-password",hashed.value());
+  const bool valid = rix.auth.password.verify(
+      "correct-password",
+      hashed.value());
+
+  const bool invalid = rix.auth.password.verify(
+      "wrong-password",
+      hashed.value());
 
   rix.debug.print("valid password:", valid ? "yes" : "no");
   rix.debug.print("wrong password:", invalid ? "yes" : "no");
 
   return valid && !invalid ? 0 : 1;
+}
+```
+
+## PDF example
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  auto doc = rix.pdf.document();
+
+  auto &page = doc.add_page();
+
+  page.text(
+      page.x_left(),
+      page.y_top(),
+      "Hello from rix.pdf");
+
+  page.text(
+      page.x_left(),
+      page.y_top() - 30.0F,
+      "This PDF was generated through the unified Rix facade.");
+
+  auto saved = rix.pdf.save(doc, "rix_pdf_basic.pdf");
+
+  if (saved.failed())
+  {
+    const auto &error = saved.error();
+
+    rix.debug.eprint(
+        "pdf error:",
+        rix.pdf.error.to_string(error),
+        error.message());
+
+    return 1;
+  }
+
+  rix.debug.print("created:", "rix_pdf_basic.pdf");
+  return 0;
+}
+```
+
+## PDF text example
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  auto doc = rix.pdf.document();
+
+  doc.set_title("Rix PDF Text Example");
+  doc.set_author("Rix");
+
+  auto &page = doc.add_page();
+
+  auto y = page.heading(
+      page.x_left(),
+      page.y_top(),
+      "Rix PDF",
+      1);
+
+  y -= 10.0F;
+
+  page.paragraph(
+      page.x_left(),
+      y,
+      page.content_width(),
+      "Rix gives Vix C++ projects a unified userland facade. "
+      "The PDF module keeps the public API simple while the writer internals stay hidden.");
+
+  auto saved = rix.pdf.save(doc, "rix_pdf_text.pdf");
+
+  if (saved.failed())
+  {
+    const auto &error = saved.error();
+
+    rix.debug.eprint(
+        "pdf error:",
+        rix.pdf.error.to_string(error),
+        error.message());
+
+    return 1;
+  }
+
+  return 0;
+}
+```
+
+## PDF table example
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  auto doc = rix.pdf.document();
+
+  auto &page = doc.add_page();
+
+  auto y = page.heading(
+      page.x_left(),
+      page.y_top(),
+      "Project table",
+      1);
+
+  y -= 20.0F;
+
+  rixlib::pdf::Table table;
+
+  table.set_column_widths({
+      160.0F,
+      160.0F,
+      160.0F});
+
+  table.add_header({
+      "Name",
+      "Language",
+      "Project"});
+
+  table.add_row({
+      "Ada",
+      "C++",
+      "Rix"});
+
+  table.add_row({
+      "Gaspard",
+      "C++",
+      "Vix.cpp"});
+
+  page.table(
+      page.x_left(),
+      y,
+      table);
+
+  auto saved = rix.pdf.save(doc, "rix_pdf_table.pdf");
+
+  return saved.ok() ? 0 : 1;
 }
 ```
 
@@ -274,12 +468,18 @@ For custom stores where Rix should own the store lifetime:
 auto users = rix.auth.stores.memory_users();
 auto sessions = rix.auth.stores.memory_sessions();
 
-auto auth = rix.auth.managed(std::move(users),std::move(sessions));
+auto auth = rix.auth.managed(
+    std::move(users),
+    std::move(sessions));
 
 if (auth.failed())
 {
   const auto &error = auth.error();
-  rix.debug.eprint("auth error:",rix.auth.error.to_string(error),error.message());
+
+  rix.debug.eprint(
+      "auth error:",
+      rix.auth.error.to_string(error),
+      error.message());
 
   return 1;
 }
@@ -298,7 +498,10 @@ Correct usage:
 ```cpp
 auto users = rix.auth.stores.memory_users();
 auto sessions = rix.auth.stores.memory_sessions();
-auto auth = rix.auth.create(*users,*sessions);
+
+auto auth = rix.auth.create(
+    *users,
+    *sessions);
 ```
 
 In this example, `users` and `sessions` must remain alive while `auth` is used.
@@ -320,11 +523,65 @@ or:
 ```cpp
 auto auth = rix.auth.managed(
     rix.auth.stores.memory_users(),
-    rix.auth.stores.memory_sessions()
-);
+    rix.auth.stores.memory_sessions());
 ```
 
 Use `create(...)` only when you intentionally want to manage store lifetime yourself.
+
+## PDF facade API
+
+```cpp
+rix.pdf.document()
+rix.pdf.document(page_size, margins)
+
+rix.pdf.write(document)
+rix.pdf.save(document, "output.pdf")
+rix.pdf.make_text("output.pdf", "content", "title")
+
+rix.pdf.error.to_string(error)
+rix.pdf.error.make(code, message)
+rix.pdf.error.none()
+
+rix.pdf.image.load_jpeg("image.jpg")
+rix.pdf.image.from_jpeg_bytes(bytes)
+
+rix.pdf.writer.write(document)
+rix.pdf.writer.save(document, "output.pdf")
+rix.pdf.writer.create()
+
+rix.pdf.version()
+```
+
+## PDF error handling
+
+`rix.pdf` uses explicit result values for normal failures.
+
+```cpp
+auto saved = rix.pdf.save(doc, "output.pdf");
+
+if (saved.failed())
+{
+  const auto &error = saved.error();
+
+  rix.debug.eprint(
+      "pdf error:",
+      rix.pdf.error.to_string(error),
+      error.message());
+
+  return 1;
+}
+```
+
+For operations that return data:
+
+```cpp
+auto bytes = rix.pdf.write(doc);
+
+if (bytes.ok())
+{
+  rix.debug.print("pdf bytes:", bytes.value().size());
+}
+```
 
 ## Print and format
 
@@ -419,15 +676,42 @@ int main()
   rixlib::auth::Auth auth{
       users,
       sessions,
-      rixlib::auth::AuthConfig::development()
-  };
+      rixlib::auth::AuthConfig::development()};
 
   auto registered = auth.register_user({
       "ada@example.com",
-      "correct-password"
-  });
+      "correct-password"});
 
   return registered.ok() ? 0 : 1;
+}
+```
+
+And:
+
+```bash
+vix add @rix/pdf
+vix install
+```
+
+```cpp
+#include <rix/pdf.hpp>
+
+int main()
+{
+  auto pdf = rixlib::pdf::module();
+
+  auto doc = pdf.document();
+
+  auto &page = doc.add_page();
+
+  page.text(
+      page.x_left(),
+      page.y_top(),
+      "Hello from rix/pdf");
+
+  auto saved = pdf.save(doc, "hello.pdf");
+
+  return saved.ok() ? 0 : 1;
 }
 ```
 
@@ -445,11 +729,19 @@ rix/
 │   ├── basic.cpp
 │   ├── csv.cpp
 │   ├── debug.cpp
-│   └── auth/
-│       ├── 01_memory_register_login.cpp
-│       ├── 02_password_hash.cpp
-│       ├── 03_session_refresh_logout.cpp
-│       └── 04_token_issue.cpp
+│   ├── auth/
+│   │   ├── 01_memory_register_login.cpp
+│   │   ├── 02_password_hash.cpp
+│   │   ├── 03_session_refresh_logout.cpp
+│   │   └── 04_token_issue.cpp
+│   └── pdf/
+│       ├── 01_basic.cpp
+│       ├── 02_text.cpp
+│       ├── 03_table.cpp
+│       ├── 04_drawing.cpp
+│       ├── 05_metadata.cpp
+│       ├── 06_make_text.cpp
+│       └── 07_error_handling.cpp
 ├── tests/
 │   └── rix_tests.cpp
 ├── packages/
@@ -459,7 +751,10 @@ rix/
 │   ├── debug/
 │   │   ├── README.md
 │   │   └── vix.json
-│   └── auth/
+│   ├── auth/
+│   │   ├── README.md
+│   │   └── vix.json
+│   └── pdf/
 │       ├── README.md
 │       └── vix.json
 ├── CMakeLists.txt
@@ -484,6 +779,7 @@ Second, it is the official human-readable index of Rix packages:
 packages/csv
 packages/debug
 packages/auth
+packages/pdf
 ```
 
 The real source code of each independent package lives in its own repository:
@@ -492,6 +788,7 @@ The real source code of each independent package lives in its own repository:
 https://github.com/rixcpp/csv
 https://github.com/rixcpp/debug
 https://github.com/rixcpp/auth
+https://github.com/rixcpp/pdf
 ```
 
 ## Build
@@ -509,10 +806,19 @@ Because this repository contains multiple examples, run one explicitly:
 vix run rix_basic
 vix run rix_csv_example
 vix run rix_debug_example
+
 vix run rix_example_auth_01_memory_register_login
 vix run rix_example_auth_02_password_hash
 vix run rix_example_auth_03_session_refresh_logout
 vix run rix_example_auth_04_token_issue
+
+vix run rix_pdf_01_basic
+vix run rix_pdf_02_text
+vix run rix_pdf_03_table
+vix run rix_pdf_04_drawing
+vix run rix_pdf_05_metadata
+vix run rix_pdf_06_make_text
+vix run rix_pdf_07_error_handling
 ```
 
 ## Tests
@@ -556,6 +862,13 @@ rix.auth.config.production(...)
 rix.auth.error.to_string(...)
 rix.auth.stores.memory_users(...)
 rix.auth.stores.memory_sessions(...)
+
+rix.pdf.document(...)
+rix.pdf.write(...)
+rix.pdf.save(...)
+rix.pdf.make_text(...)
+rix.pdf.image.load_jpeg(...)
+rix.pdf.error.to_string(...)
 ```
 
 ## License

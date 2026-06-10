@@ -20,9 +20,10 @@ add_executable(rix_debug_example
   debug.cpp
 )
 
-add_subdirectory(auth)
-
 target_link_libraries(rix_debug_example
   PRIVATE
     rix::rix
 )
+
+add_subdirectory(auth)
+add_subdirectory(pdf)
