@@ -4,26 +4,28 @@
  *
  * This header exposes the global `rix` object.
  *
- * The package `@rix/rix` is the optional unified facade for Rix packages.
- * Individual packages such as `@rix/csv`, `@rix/debug`, `@rix/auth`, and
- * `@rix/pdf` stay independent, but this facade mounts them into one
- * object-style API.
+ * By default, it keeps the historical behavior and enables all available
+ * mounted Rix packages.
  *
- * Example:
+ * For lighter builds, define only the packages you want before including
+ * this header:
  *
  * @code
+ * #define RIX_ENABLE_CSV
+ * #include <rix.hpp>
+ *
  * auto table = rix.csv.parse("name,lang\nAda,C++\n");
- * rix.debug.print("loaded rows:", table.size());
- * rix.debug.log("loaded {} rows", table.size());
- *
- * auto auth = rix.auth.memory();
- * auto user = auth.register_user({"ada@example.com", "correct-password"});
- *
- * auto doc = rix.pdf.document();
- * auto &page = doc.add_page();
- * page.text(page.x_left(), page.y_top(), "Hello from Rix PDF");
- * auto saved = rix.pdf.save(doc, "hello.pdf");
  * @endcode
+ *
+ * Available feature macros:
+ *
+ * - RIX_ENABLE_CSV
+ * - RIX_ENABLE_DEBUG
+ * - RIX_ENABLE_AUTH
+ * - RIX_ENABLE_PDF
+ *
+ * To keep backward compatibility, if no RIX_ENABLE_* macro is defined,
+ * all current facade modules are enabled.
  *
  * @author Gaspard Kirira
  */
@@ -31,69 +33,110 @@
 #ifndef RIXCPP_RIX_INCLUDE_RIX_HPP_INCLUDED
 #define RIXCPP_RIX_INCLUDE_RIX_HPP_INCLUDED
 
-#include <rix/auth/AuthModule.hpp>
+/*
+ * Backward compatibility mode.
+ *
+ * Existing code that does:
+ *
+ *   #include <rix.hpp>
+ *
+ * should keep working exactly as before.
+ *
+ * If the user defines at least one RIX_ENABLE_* macro, only those selected
+ * modules are mounted into the facade.
+ */
+#if !defined(RIX_ENABLE_CSV) &&   \
+    !defined(RIX_ENABLE_DEBUG) && \
+    !defined(RIX_ENABLE_AUTH) &&  \
+    !defined(RIX_ENABLE_PDF)
+
+#define RIX_ENABLE_CSV
+#define RIX_ENABLE_DEBUG
+#define RIX_ENABLE_AUTH
+#define RIX_ENABLE_PDF
+
+#endif
+
+#ifdef RIX_ENABLE_CSV
 #include <rix/csv.hpp>
+#endif
+
+#ifdef RIX_ENABLE_DEBUG
 #include <rix/debug.hpp>
+#endif
+
+#ifdef RIX_ENABLE_AUTH
+#include <rix/auth/AuthModule.hpp>
+#endif
+
+#ifdef RIX_ENABLE_PDF
 #include <rix/pdf/PdfModule.hpp>
+#endif
 
 namespace rixlib
 {
   /**
    * @brief Unified Rix API facade.
    *
-   * This class groups independent Rix components into one object.
+   * This class groups selected independent Rix components into one object.
+   *
+   * The mounted components depend on the RIX_ENABLE_* macros defined before
+   * including <rix.hpp>.
    */
   class Rix
   {
   public:
+#ifdef RIX_ENABLE_CSV
     /**
      * @brief CSV reader and writer component.
      */
     rixlib::csv::Csv csv{};
+#endif
 
+#ifdef RIX_ENABLE_DEBUG
     /**
      * @brief Debug printing, formatting, logging, and inspection component.
      */
     rixlib::debug::Debug debug{};
+#endif
 
+#ifdef RIX_ENABLE_AUTH
     /**
      * @brief Authentication component.
      */
     rixlib::auth::AuthModule auth{};
+#endif
 
+#ifdef RIX_ENABLE_PDF
     /**
      * @brief PDF generation and document utilities component.
      */
     rixlib::pdf::PdfModule pdf{};
+#endif
   };
 }
 
 /**
  * @brief Global Rix facade object.
  *
- * This object allows API usage such as:
+ * Default usage:
  *
  * @code
- * rix.csv.parse(...)
- * rix.debug.print(...)
- * rix.debug.format(...)
- * rix.debug.log(...)
- * rix.debug.inspect(...)
+ * #include <rix.hpp>
  *
- * rix.auth.memory()
- * rix.auth.database(db)
- * rix.auth.managed(users, sessions)
- * rix.auth.create(users, sessions)
- * rix.auth.password.hash(...)
- * rix.auth.config.production()
- * rix.auth.error.to_string(...)
+ * rix.csv.parse(...);
+ * rix.debug.print(...);
+ * rix.auth.memory();
+ * rix.pdf.document();
+ * @endcode
  *
- * rix.pdf.document()
- * rix.pdf.write(doc)
- * rix.pdf.save(doc, "output.pdf")
- * rix.pdf.make_text("text.pdf", "Hello", "Title")
- * rix.pdf.image.load_jpeg("image.jpg")
- * rix.pdf.error.to_string(...)
+ * Lightweight usage:
+ *
+ * @code
+ * #define RIX_ENABLE_CSV
+ * #include <rix.hpp>
+ *
+ * rix.csv.parse(...);
  * @endcode
  */
 inline constexpr rixlib::Rix rix{};

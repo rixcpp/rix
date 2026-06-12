@@ -2,7 +2,257 @@
 
 Rix is the unified userland library layer for Vix.cpp.
 
-It gives Vix C++ projects a single optional facade object:
+It gives Vix C++ projects a set of optional userland packages and a single clean facade object:
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  rix.debug.print("Hello", "Rix");
+  auto table = rix.csv.parse("name,language\nAda,C++\n");
+  rix.debug.log("loaded {} rows", table.size());
+
+  return 0;
+}
+```
+
+Rix does not replace Vix.
+
+Vix provides the runtime, CLI, build workflow, registry integration, and core foundations.
+
+Rix provides optional userland packages and a unified facade over them.
+
+---
+
+## Links
+
+- Website: https://vixcpp.com
+- Rix Docs: https://rix.vixcpp.com
+- Registry: https://registry.vixcpp.com
+- Vix Docs: https://docs.vixcpp.com
+
+---
+
+## Design
+
+Rix is built around two levels.
+
+### Independent packages
+
+```txt
+@rix/csv
+@rix/debug
+@rix/auth
+@rix/pdf
+@rix/config
+@rix/table
+```
+
+These packages are independent.
+
+They can be installed and used directly when an application only needs one package.
+
+### Unified facade package
+
+```txt
+@rix/rix
+```
+
+This package provides the optional unified facade:
+
+```cpp
+rix.csv.parse(...)
+rix.debug.print(...)
+rix.auth.memory(...)
+rix.pdf.document()
+```
+
+The facade is for applications that want one clean object-style API.
+
+Public examples should prefer the unified `rix` facade.
+
+The lower-level `rixlib` namespace is reserved for package implementation details, independent package usage, and advanced integration code.
+
+---
+
+## Package model
+
+```txt
+Vix        -> runtime, CLI, build workflow, registry client, core modules
+Rix        -> userland libraries and optional unified facade
+Registry   -> package metadata and version resolution
+```
+
+Rix keeps packages modular while still offering one clean entry point for users who want the full userland layer.
+
+---
+
+## Install
+
+Install the unified facade:
+
+```bash
+vix add @rix/rix
+vix install
+```
+
+Or install an independent package:
+
+```bash
+vix add @rix/csv
+vix install
+```
+
+```bash
+vix add @rix/debug
+vix install
+```
+
+```bash
+vix add @rix/auth
+vix install
+```
+
+```bash
+vix add @rix/pdf
+vix install
+```
+
+---
+
+## Use the unified facade
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  rix.debug.print("Hello", "Rix");
+  const auto message = rix.debug.format("Package: {}", "rix/rix");
+  rix.debug.log("message: {}", message);
+
+  return 0;
+}
+```
+
+---
+
+## Lightweight facade usage
+
+By default, `#include <rix.hpp>` enables all current mounted facade modules for backward compatibility.
+
+```cpp
+#include <rix.hpp>
+
+int main()
+{
+  rix.csv.parse("name,language\nAda,C++\n");
+  rix.debug.print("Hello", "Rix");
+
+  auto auth = rix.auth.memory();
+
+  auto doc = rix.pdf.document();
+
+  return 0;
+}
+```
+
+For lighter usage, define only the modules you want before including `rix.hpp`.
+
+```cpp
+#define RIX_ENABLE_CSV
+#include <rix.hpp>
+
+int main()
+{
+  auto table = rix.csv.parse("name,language\nAda,C++\n");
+
+  return table.empty() ? 1 : 0;
+}
+```
+
+Multiple modules can be enabled together:
+
+```cpp
+#define RIX_ENABLE_CSV
+#define RIX_ENABLE_DEBUG
+#include <rix.hpp>
+
+int main()
+{
+  auto table = rix.csv.parse("name,language\nAda,C++\n");
+
+  rix.debug.log("loaded {} rows", table.size());
+
+  return 0;
+}
+```
+
+Available facade macros:
+
+```txt
+RIX_ENABLE_CSV
+RIX_ENABLE_DEBUG
+RIX_ENABLE_AUTH
+RIX_ENABLE_PDF
+```
+
+If no `RIX_ENABLE_*` macro is defined, all current facade modules are enabled.
+
+This keeps existing code working:
+
+```cpp
+#include <rix.hpp>
+```
+
+This enables only CSV:
+
+```cpp
+#define RIX_ENABLE_CSV
+#include <rix.hpp>
+```
+
+This enables CSV and Debug:
+
+```cpp
+#define RIX_ENABLE_CSV
+#define RIX_ENABLE_DEBUG
+#include <rix.hpp>
+```
+
+Do not define facade macros after including `rix.hpp`.
+
+Wrong:
+
+```cpp
+#include <rix.hpp>
+
+#define RIX_ENABLE_CSV
+#include <rix.hpp>
+```
+
+Correct:
+
+```cpp
+#define RIX_ENABLE_CSV
+#include <rix.hpp>
+```
+
+---
+
+## Current modules
+
+| Package      | Facade API  | Description                                                    |
+| ------------ | ----------- | -------------------------------------------------------------- |
+| `@rix/csv`   | `rix.csv`   | Small CSV reader and writer for Vix C++ projects.              |
+| `@rix/debug` | `rix.debug` | Debug printing, formatting, logging, and inspection utilities. |
+| `@rix/auth`  | `rix.auth`  | Production-oriented authentication for Vix C++ applications.   |
+| `@rix/pdf`   | `rix.pdf`   | PDF generation and document utilities for Vix C++ apps.        |
+
+---
+
+## Full facade example
 
 ```cpp
 #include <rix.hpp>
@@ -46,93 +296,7 @@ int main()
 }
 ```
 
-Rix does not replace Vix.
-
-Vix provides the runtime, CLI, build workflow, registry integration, and core foundations.
-
-Rix provides optional userland packages and a unified facade over them.
-
-## Design
-
-Rix is built around two levels.
-
-```txt
-@rix/csv
-@rix/debug
-@rix/auth
-@rix/pdf
-@rix/config
-@rix/table
-```
-
-These are independent packages.
-
-```txt
-@rix/rix
-```
-
-This is the unified facade package.
-
-The facade mounts independent packages into one object-style API:
-
-```cpp
-rix.csv.parse(...)
-rix.debug.print(...)
-rix.debug.format(...)
-rix.debug.log(...)
-rix.debug.inspect(...)
-
-rix.auth.memory(...)
-rix.auth.database(...)
-rix.auth.password.hash(...)
-rix.auth.password.verify(...)
-rix.auth.config.production(...)
-rix.auth.error.to_string(...)
-
-rix.pdf.document()
-rix.pdf.save(...)
-rix.pdf.write(...)
-rix.pdf.make_text(...)
-rix.pdf.image.load_jpeg(...)
-rix.pdf.error.to_string(...)
-```
-
-Public examples should prefer the unified `rix` facade.
-
-The lower-level `rixlib` namespace is reserved for package implementation details, independent package usage, and advanced integration code.
-
-## Install
-
-```bash
-vix add @rix/rix
-vix install
-```
-
-## Use
-
-```cpp
-#include <rix.hpp>
-
-int main()
-{
-  rix.debug.print("Hello", "Rix");
-
-  const auto message = rix.debug.format("Package: {}", "rix/rix");
-
-  rix.debug.log("message: {}", message);
-
-  return 0;
-}
-```
-
-## Current modules
-
-| Package      | Facade API  | Description                                                    |
-| ------------ | ----------- | -------------------------------------------------------------- |
-| `@rix/csv`   | `rix.csv`   | Small CSV reader and writer for Vix C++ projects.              |
-| `@rix/debug` | `rix.debug` | Debug printing, formatting, logging, and inspection utilities. |
-| `@rix/auth`  | `rix.auth`  | Production-oriented authentication for Vix C++ applications.   |
-| `@rix/pdf`   | `rix.pdf`   | PDF generation and document utilities for Vix C++ apps.        |
+---
 
 ## CSV example
 
@@ -163,6 +327,8 @@ int main()
 }
 ```
 
+---
+
 ## Debug example
 
 ```cpp
@@ -182,6 +348,8 @@ int main()
   return 0;
 }
 ```
+
+---
 
 ## Auth example
 
@@ -234,6 +402,8 @@ int main()
 }
 ```
 
+---
+
 ## Auth password example
 
 ```cpp
@@ -269,6 +439,8 @@ int main()
   return valid && !invalid ? 0 : 1;
 }
 ```
+
+---
 
 ## PDF example
 
@@ -306,9 +478,12 @@ int main()
   }
 
   rix.debug.print("created:", "rix_pdf_basic.pdf");
+
   return 0;
 }
 ```
+
+---
 
 ## PDF text example
 
@@ -356,6 +531,8 @@ int main()
   return 0;
 }
 ```
+
+---
 
 ## PDF table example
 
@@ -409,6 +586,8 @@ int main()
 }
 ```
 
+---
+
 ## Auth facade API
 
 ```cpp
@@ -445,6 +624,8 @@ rix.auth.stores.database_sessions(db)
 
 rix.auth.version()
 ```
+
+---
 
 ## Auth service creation
 
@@ -528,6 +709,8 @@ auto auth = rix.auth.managed(
 
 Use `create(...)` only when you intentionally want to manage store lifetime yourself.
 
+---
+
 ## PDF facade API
 
 ```cpp
@@ -551,6 +734,8 @@ rix.pdf.writer.create()
 
 rix.pdf.version()
 ```
+
+---
 
 ## PDF error handling
 
@@ -583,6 +768,8 @@ if (bytes.ok())
 }
 ```
 
+---
+
 ## Print and format
 
 `rix.debug.print` does not replace `{}` placeholders.
@@ -614,11 +801,13 @@ Or use `rix.debug.log` directly:
 rix.debug.log("Hello {}", "Rix");
 ```
 
+---
+
 ## Independent packages
 
-Each Rix module can also be used independently.
+Each Rix package can also be used independently.
 
-For example:
+### CSV
 
 ```bash
 vix add @rix/csv
@@ -631,13 +820,14 @@ vix install
 int main()
 {
   rixlib::csv::Csv csv;
+
   auto table = csv.parse("name,language\nAda,C++\n");
 
-  return 0;
+  return table.empty() ? 1 : 0;
 }
 ```
 
-And:
+### Debug
 
 ```bash
 vix add @rix/debug
@@ -658,7 +848,7 @@ int main()
 }
 ```
 
-And:
+### Auth
 
 ```bash
 vix add @rix/auth
@@ -686,7 +876,7 @@ int main()
 }
 ```
 
-And:
+### PDF
 
 ```bash
 vix add @rix/pdf
@@ -718,6 +908,8 @@ int main()
 Independent packages expose their own lower-level APIs.
 
 For the unified public facade, prefer `@rix/rix` and `#include <rix.hpp>`.
+
+---
 
 ## Repository layout
 
@@ -763,6 +955,8 @@ rix/
 └── README.md
 ```
 
+---
+
 ## Role of this repository
 
 This repository has two roles.
@@ -791,12 +985,16 @@ https://github.com/rixcpp/auth
 https://github.com/rixcpp/pdf
 ```
 
+---
+
 ## Build
 
 ```bash
 vix install
 vix build --build-target all -v
 ```
+
+---
 
 ## Run examples
 
@@ -821,55 +1019,167 @@ vix run rix_pdf_06_make_text
 vix run rix_pdf_07_error_handling
 ```
 
+---
+
 ## Tests
 
 ```bash
 vix tests
 ```
 
-## Package model
+---
+
+## Rix roadmap
+
+Rix should not duplicate Vix Core modules.
+
+If a feature already exists in Vix Core, Rix may provide a higher-level application library around it, but not a duplicate.
 
 ```txt
-Vix        -> runtime, CLI, build workflow, registry client
-Rix        -> userland libraries and unified facade
-Registry   -> package metadata and version resolution
+Vix = core runtime and primitives
+Rix = optional userland libraries
 ```
 
-Rix keeps packages modular while still offering one clean entry point for users who want the full userland layer.
+Existing Vix Core modules such as `json`, `fs`, `path`, `time`, `env`, `crypto`, `db`, `orm`, `kv`, `net`, `process`, `threadpool`, `validation`, `middleware`, `websocket`, `template`, `log`, `error`, `async`, `cache`, `io`, and `os` should not be copied directly into Rix.
 
-## Current facade API
+Rix packages should focus on application-level libraries built on top of Vix.
+
+### Current direction
+
+```txt
+@rix/debug
+@rix/csv
+@rix/auth
+@rix/pdf
+@rix/table
+@rix/config
+@rix/rix
+```
+
+### Production app packages
+
+```txt
+@rix/password
+@rix/session
+@rix/token
+@rix/repository
+@rix/migration
+@rix/api
+@rix/form
+@rix/upload
+@rix/rate-limit
+```
+
+### Reliability packages
+
+```txt
+@rix/health
+@rix/status
+@rix/metrics
+@rix/audit
+@rix/events
+@rix/retry
+@rix/backoff
+@rix/idempotency
+@rix/outbox
+```
+
+### Developer tooling packages
+
+```txt
+@rix/console
+@rix/progress
+@rix/bench
+@rix/test
+@rix/mock
+@rix/fake
+```
+
+---
+
+## Package rules
+
+Every Rix package should follow these principles:
+
+- small public API
+- clear documentation
+- simple examples
+- independent installation
+- stable include path
+- stable namespace
+- no hidden heavy dependency
+- usable without the unified facade
+- compatible with the unified facade when installed
+
+---
+
+## Naming convention
+
+Package name:
+
+```txt
+@rix/name
+```
+
+Include path:
 
 ```cpp
-rix.csv.parse(...)
-rix.csv.write(...)
-
-rix.debug.print(...)
-rix.debug.eprint(...)
-rix.debug.dprint(...)
-rix.debug.sprint(...)
-rix.debug.format(...)
-rix.debug.log(...)
-rix.debug.inspect(...)
-
-rix.auth.memory(...)
-rix.auth.database(...)
-rix.auth.managed(...)
-rix.auth.create(...)
-rix.auth.password.hash(...)
-rix.auth.password.verify(...)
-rix.auth.config.development(...)
-rix.auth.config.production(...)
-rix.auth.error.to_string(...)
-rix.auth.stores.memory_users(...)
-rix.auth.stores.memory_sessions(...)
-
-rix.pdf.document(...)
-rix.pdf.write(...)
-rix.pdf.save(...)
-rix.pdf.make_text(...)
-rix.pdf.image.load_jpeg(...)
-rix.pdf.error.to_string(...)
+#include <rix/name.hpp>
 ```
+
+Namespace:
+
+```cpp
+rixlib::name
+```
+
+Facade access:
+
+```cpp
+rix.name
+```
+
+Examples:
+
+```txt
+Package  : @rix/csv
+Header   : <rix/csv.hpp>
+Namespace: rixlib::csv
+Facade   : rix.csv
+```
+
+```txt
+Package  : @rix/auth
+Header   : <rix/auth.hpp>
+Namespace: rixlib::auth
+Facade   : rix.auth
+```
+
+```txt
+Package  : @rix/pdf
+Header   : <rix/pdf.hpp>
+Namespace: rixlib::pdf
+Facade   : rix.pdf
+```
+
+---
+
+## Main rule
+
+```txt
+If it is a primitive, it belongs in Vix.
+If it is an application helper, it belongs in Rix.
+If it is a complete reliability framework, it belongs in Cnerium.
+```
+
+And:
+
+```txt
+One application problem = one small Rix package.
+Many Rix packages = one optional rix.* facade.
+```
+
+---
 
 ## License
 
