@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.9.1
+
+### Added
+
+- Added selective Rix facade module mounting through `RIX_ENABLE_*` macros.
+- Kept backward compatibility: including `<rix.hpp>` without feature macros still enables all current facade modules.
+
+### Changed
+
+- Updated README with the Rix package model, lightweight facade usage, and documentation link.
+- Added Rix documentation link: https://rix.vixcpp.com
+
 ## v0.9.0
 
 ### Added
